@@ -15,9 +15,35 @@ const phrases =  [
 
 // Return a random phrase from an array
 const getRandomPhraseAsArray = arr => {
-    let randomNumber = Math.floor((Math.random() * phrases.length));
-    return phrases[randomNumber];
+    let randomNumber = Math.floor((Math.random() * arr.length));
+    return arr[randomNumber].split('');
 }
+
+// Add each character of the random phrase to the DOM
+const addPhraseToDisplay = arr => {
+    const phraseUL = document.querySelector('#phrase ul');
+    for (let i = 0; i < arr.length; i++) {
+        let li = document.createElement('li');
+        li.textContent = arr[i];
+        phraseUL.appendChild(li);
+        if (li.textContent !== ' ') {
+            li.classList.add('letter');
+        }
+    }
+}
+
+// Check if a letter is in the phrase
+// const checkLetter = button => {
+//     const li = document.getElementsByTagName('li');
+//     let match = null;
+//     for (let i = 0; i < li.length; i++) {
+//         if (button.textContent === li[i].textContent) {
+//             li[i].classList.add('show');
+//             match = button.textContent
+//         }
+//     }
+//     return match;
+// }
 
 // Listen for the start game button to be pressed
 startButton.addEventListener('click', () => {
@@ -25,4 +51,15 @@ startButton.addEventListener('click', () => {
     overlay.style.display = 'none';
 });
 
-console.log(getRandomPhraseAsArray(phrases));
+// Listen for the onscreen keyboard to be clicked
+// qwerty.addEventListener('click', e => {
+//     if (e.target.tagName === 'BUTTON') {
+//         e.target.classList.add('chosen');
+//         let chosenLetter = checkLetter(e.target.textContent);
+//         console.log(chosenLetter);
+//     }
+// });
+
+const phraseArray = getRandomPhraseAsArray(phrases);
+addPhraseToDisplay(phraseArray);
+
