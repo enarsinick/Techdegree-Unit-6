@@ -6,11 +6,11 @@ let missed = 0;
 
 // Declaring an array of phrases
 const phrases =  [
-    "Thats the way the cookie crumbles",
-    "Go back to the drawing board",
-    "Call it a day",
-    "Beat around the bush",
-    "Its not rocket science"
+    "thats the way the cookie crumbles",
+    "go back to the drawing board",
+    "call it a day",
+    "beat around the bush",
+    "its not rocket science"
 ]
 
 // Return a random phrase from an array
@@ -21,13 +21,28 @@ const getRandomPhraseAsArray = arr => {
 
 // Add each character of the random phrase to the DOM
 const addPhraseToDisplay = arr => {
-    const phraseUL = document.querySelector('#phrase ul');
+    const phraseUL = phrase.querySelector('ul');
     for (let i = 0; i < arr.length; i++) {
         let li = document.createElement('li');
         li.textContent = arr[i];
         phraseUL.appendChild(li);
         if (li.textContent !== ' ') {
             li.classList.add('letter');
+        }
+    }
+}
+
+const checkLetter = button => {
+    const letters = phrase.querySelectorAll('.letter')
+    for (let i = 0; i < letters.length; i++) {
+        if (button.textContent === letters[i].textContent) {
+            console.log('It matched');
+            letters[i].classList.add('show');
+            // match = letters[i].textContent;
+            // return match;
+        } else {
+            // return console.log('It didn\'t work');
+            console.log('It didn\'t matched');
         }
     }
 }
@@ -52,6 +67,18 @@ startButton.addEventListener('click', () => {
 });
 
 // Listen for the onscreen keyboard to be clicked
+qwerty.addEventListener('click', e => {
+    if (e.target.tagName === 'BUTTON') {
+        e.target.classList.add('chosen');
+        e.target.disabled = 'true';
+        let letterFound = checkLetter(e.target) 
+        console.log(letterFound);
+    }
+})
+
+
+
+
 // qwerty.addEventListener('click', e => {
 //     if (e.target.tagName === 'BUTTON') {
 //         e.target.classList.add('chosen');
@@ -62,4 +89,5 @@ startButton.addEventListener('click', () => {
 
 const phraseArray = getRandomPhraseAsArray(phrases);
 addPhraseToDisplay(phraseArray);
+
 
