@@ -1,6 +1,13 @@
+///////////////// DEV NOTES ///////////////// 
+// Create functionality so the hearts are removed or changes if the player guesses wrong
+// Add CSS transitions for each letter in the phrase display as they are revealed
+// Create a reset game button on the win or lose screen
+
+
 // Declaring variables
 const qwerty = document.getElementById('qwerty');
 const phrase = document.getElementById('phrase');
+const overlay = document.getElementById('overlay');
 const startButton = document.querySelector('.btn__reset');
 let missed = 0;
 
@@ -28,41 +35,49 @@ const addPhraseToDisplay = arr => {
         phraseUL.appendChild(li);
         if (li.textContent !== ' ') {
             li.classList.add('letter');
+        } else {
+            li.classList.add('space');
         }
     }
 }
 
 const checkLetter = button => {
     const letters = phrase.querySelectorAll('.letter')
+    let matchedLetter;
     for (let i = 0; i < letters.length; i++) {
         if (button.textContent === letters[i].textContent) {
-            console.log('It matched');
             letters[i].classList.add('show');
-            // match = letters[i].textContent;
-            // return match;
-        } else {
-            // return console.log('It didn\'t work');
-            console.log('It didn\'t matched');
+            matchedLetter = button.textContent;
+        } 
+    }
+    if (matchedLetter) {
+        return matchedLetter;
+    } else {
+        return null;
+    }
+}
+
+const checkWin = missed => {
+    const numberOfLetters = document.querySelectorAll('.letter').length;
+    const numberOfLettersShown = document.querySelectorAll('.show').length;
+    const overlayTitle = overlay.querySelector('h2');
+    if (missed >= 5) {
+        overlayTitle.textContent = 'You Lose!';
+        overlay.classList.add('lose');
+        overlay.style.display = 'flex';
+        startButton.style.display = 'none';
+    } else {
+        if (numberOfLetters === numberOfLettersShown) {
+            overlayTitle.textContent = 'You Win!';
+            overlay.classList.add('win');
+            overlay.style.display = 'flex';
+            startButton.style.display = 'none';
         }
     }
 }
 
-// Check if a letter is in the phrase
-// const checkLetter = button => {
-//     const li = document.getElementsByTagName('li');
-//     let match = null;
-//     for (let i = 0; i < li.length; i++) {
-//         if (button.textContent === li[i].textContent) {
-//             li[i].classList.add('show');
-//             match = button.textContent
-//         }
-//     }
-//     return match;
-// }
-
 // Listen for the start game button to be pressed
 startButton.addEventListener('click', () => {
-    const overlay = document.getElementById('overlay');
     overlay.style.display = 'none';
 });
 
@@ -71,21 +86,13 @@ qwerty.addEventListener('click', e => {
     if (e.target.tagName === 'BUTTON') {
         e.target.classList.add('chosen');
         e.target.disabled = 'true';
-        let letterFound = checkLetter(e.target) 
-        console.log(letterFound);
+        let letterFound = checkLetter(e.target)
+        if (letterFound === null) {
+            missed += 1;
+        }
+        checkWin(missed);
     }
 })
-
-
-
-
-// qwerty.addEventListener('click', e => {
-//     if (e.target.tagName === 'BUTTON') {
-//         e.target.classList.add('chosen');
-//         let chosenLetter = checkLetter(e.target.textContent);
-//         console.log(chosenLetter);
-//     }
-// });
 
 const phraseArray = getRandomPhraseAsArray(phrases);
 addPhraseToDisplay(phraseArray);
