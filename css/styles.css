@@ -27,6 +27,7 @@ body {
   flex-direction: column;
   display: flex;
   height: 100vh;
+  font-family: 'Open Sans', sans-serif;
 }
 
 li, ol, ul {
@@ -83,6 +84,7 @@ button {
   width: 65px;
   padding: 20px 1px 0 1px;
   margin-right: 2px;
+  margin-top: 15px;
   color: transparent;
   background: var(--color-neutral-light);
   border-radius: 5px;
@@ -95,6 +97,13 @@ button {
 .show {
   color: #000;
   background-color: #76CE82;
+  animation-name: buttonAnimate;
+  animation-duration: 0.3s;
+  animation-timing-function: ease-in-out;
+}
+
+@keyframes buttonAnimate {
+  50% {transform: translate(0, -10px);}
 }
 
 /* Keyboard */
@@ -111,7 +120,7 @@ button {
   color: #FFFFFF;
 }
 
-.btn__reset {
+.btn__reset, .resetGame {
   padding: 8px;
   margin: 50px auto;
   background: #FFFFFF;

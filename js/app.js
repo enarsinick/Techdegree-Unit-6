@@ -1,7 +1,6 @@
 ///////////////// DEV NOTES ///////////////// 
 // Create functionality so the hearts are removed or changes if the player guesses wrong
 // Add CSS transitions for each letter in the phrase display as they are revealed
-// Create a reset game button on the win or lose screen
 
 
 // Declaring variables
@@ -19,6 +18,18 @@ const phrases =  [
     "beat around the bush",
     "its not rocket science"
 ]
+
+// Function that creates a button to reset the game and add it to the DOM
+const gameRest = () => {
+    const resetButton = document.createElement('BUTTON');
+    resetButton.innerHTML = 'Reset Game';
+    resetButton.classList.add('resetGame');
+    return resetButton;
+}
+
+// Adds button to the overlay, ready to restart the game when win or lose
+const resetButton = overlay.appendChild(gameRest());
+resetButton.style.display = 'none';
 
 // Return a random phrase from an array
 const getRandomPhraseAsArray = arr => {
@@ -41,6 +52,7 @@ const addPhraseToDisplay = arr => {
     }
 }
 
+// Function that checks if the letters in the phrase are what is being guessed by the player
 const checkLetter = button => {
     const letters = phrase.querySelectorAll('.letter')
     let matchedLetter;
@@ -57,6 +69,7 @@ const checkLetter = button => {
     }
 }
 
+// Function that checks to see if you've won or lost the game
 const checkWin = missed => {
     const numberOfLetters = document.querySelectorAll('.letter').length;
     const numberOfLettersShown = document.querySelectorAll('.show').length;
@@ -66,12 +79,14 @@ const checkWin = missed => {
         overlay.classList.add('lose');
         overlay.style.display = 'flex';
         startButton.style.display = 'none';
+        resetButton.style.display = 'block';
     } else {
         if (numberOfLetters === numberOfLettersShown) {
             overlayTitle.textContent = 'You Win!';
             overlay.classList.add('win');
             overlay.style.display = 'flex';
             startButton.style.display = 'none';
+            resetButton.style.display = 'block';
         }
     }
 }
@@ -94,7 +109,14 @@ qwerty.addEventListener('click', e => {
     }
 })
 
+// Listen for button press to the reset the game
+resetButton.addEventListener('click', () => {
+    window.location.reload(false); 
+})
+
+// Adds a phrase to the DOM
 const phraseArray = getRandomPhraseAsArray(phrases);
 addPhraseToDisplay(phraseArray);
+
 
 
