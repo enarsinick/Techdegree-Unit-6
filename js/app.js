@@ -1,13 +1,9 @@
-///////////////// DEV NOTES ///////////////// 
-// Create functionality so the hearts are removed or changes if the player guesses wrong
-// Add CSS transitions for each letter in the phrase display as they are revealed
-
-
 // Declaring variables
 const qwerty = document.getElementById('qwerty');
 const phrase = document.getElementById('phrase');
 const overlay = document.getElementById('overlay');
 const startButton = document.querySelector('.btn__reset');
+const lives = document.getElementById('lives');
 let missed = 0;
 
 // Declaring an array of phrases
@@ -69,6 +65,7 @@ const checkLetter = button => {
     }
 }
 
+
 // Function that checks to see if you've won or lost the game
 const checkWin = missed => {
     const numberOfLetters = document.querySelectorAll('.letter').length;
@@ -104,6 +101,7 @@ qwerty.addEventListener('click', e => {
         let letterFound = checkLetter(e.target)
         if (letterFound === null) {
             missed += 1;
+            lives.lastElementChild.remove();
         }
         checkWin(missed);
     }
