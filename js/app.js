@@ -12,7 +12,14 @@ const phrases =  [
     "go back to the drawing board",
     "call it a day",
     "beat around the bush",
-    "its not rocket science"
+    "its not rocket science",
+    "wait and see",
+    "No news is good news",
+    "less is more",
+    "it takes two to tango",
+    "haste makes waste",
+    "better late than never",
+    
 ]
 
 // Function that creates a button to reset the game and add it to the DOM
@@ -101,7 +108,13 @@ qwerty.addEventListener('click', e => {
         let letterFound = checkLetter(e.target)
         if (letterFound === null) {
             missed += 1;
-            lives.lastElementChild.remove();
+            // lives.lastElementChild.remove();
+            for (let i = 0; i < missed; i++) {
+                let img = lives.children[i]
+                if (img.firstChild.getAttribute('src') === 'images/liveHeart.png') {
+                    img.firstChild.src = 'images/lostHeart.png'
+                }
+            }
         }
         checkWin(missed);
     }
